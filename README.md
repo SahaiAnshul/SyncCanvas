@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 # SyncCanvas
 
 **Author & Owner:** Anshul  
@@ -195,3 +196,6 @@ npm run build
 ## 📄 License & Attribution
 
 Distributed under the **MIT License**. Created and maintained by **Anshul**.
+=======
+# SyncCanvas
+>>>>>>> 6e6d58f982a668803541e3facc64c539ef93fc23
