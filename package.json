@@ -1,0 +1,28 @@
+{
+  "name": "synccanvas",
+  "version": "1.0.0",
+  "description": "SyncCanvas - Real-time Collaborative Whiteboard & Code Editor",
+  "author": "Anshul",
+  "license": "MIT",
+  "private": true,
+  "workspaces": [
+    "client",
+    "server"
+  ],
+  "scripts": {
+    "install-all": "npm install && npm install --prefix client && npm install --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "dev:server": "npm run dev --prefix server",
+    "dev": "npx concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "build:client": "npm run build --prefix client",
+    "build": "npm run build:client"
+  },
+  "devDependencies": {
+    "@vitejs/plugin-react": "^4.7.0",
+    "concurrently": "^8.2.2",
+    "vite": "^7.3.6"
+  },
+  "dependencies": {
+    "lucide-react": "^1.28.0"
+  }
+}

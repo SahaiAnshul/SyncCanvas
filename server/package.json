@@ -1,0 +1,33 @@
+{
+  "name": "synccanvas-server",
+  "version": "1.0.0",
+  "description": "SyncCanvas Real-time Backend Engine",
+  "type": "module",
+  "scripts": {
+    "dev": "nodemon src/server.js",
+    "start": "node src/server.js"
+  },
+  "keywords": [
+    "synccanvas",
+    "collaboration",
+    "socket.io",
+    "yjs",
+    "mongodb"
+  ],
+  "author": "Anshul",
+  "license": "MIT",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "cors": "^2.8.5",
+    "dotenv": "^17.0.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2",
+    "mongodb-memory-server": "^11.2.0",
+    "mongoose": "^8.0.0",
+    "socket.io": "^4.8.3",
+    "yjs": "^13.6.32"
+  },
+  "devDependencies": {
+    "nodemon": "^3.1.4"
+  }
+}
