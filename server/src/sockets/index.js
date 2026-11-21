@@ -85,9 +85,13 @@ export function initializeSocket(server) {
 
       if (users.size === 0) {
         roomUsers.delete(roomCode);
-        // Keep canvas state alive until the last user leaves — then clear it too
-        roomCanvases.delete(roomCode);
-        roomChats.delete(roomCode);
+        // Retain canvas and chat in memory (grace period) in case user refreshes or temporarily reconnects
+        setTimeout(() => {
+          if (!roomUsers.has(roomCode) || roomUsers.get(roomCode)?.size === 0) {
+            roomCanvases.delete(roomCode);
+            roomChats.delete(roomCode);
+          }
+        }, 15 * 60 * 1000);
       }
 
       io.to(roomCode).emit(

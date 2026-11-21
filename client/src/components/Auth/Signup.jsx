@@ -2,7 +2,7 @@
 import { useNavigate, Link } from "react-router-dom";
 import authService from "../../services/auth";
 import { useAuth } from "../../context/AuthContext";
-import { User, Mail, Lock, Sparkles, ArrowRight, Eye, EyeOff, AlertCircle, Loader2 } from "lucide-react";
+import { User, Mail, Lock, Sparkles, ArrowRight, Eye, EyeOff, AlertCircle, Loader2, Check } from "lucide-react";
 
 const Signup = () => {
   const [name, setName] = useState("");
@@ -15,9 +15,20 @@ const Signup = () => {
   const navigate = useNavigate();
   const { login } = useAuth();
 
+  const hasLength = password.length >= 8;
+  const hasUpper = /[A-Z]/.test(password);
+  const hasLower = /[a-z]/.test(password);
+  const hasDigit = /\d/.test(password);
+  const isPasswordValid = hasLength && hasUpper && hasLower && hasDigit;
+
   const handleSubmit = async (e) => {
     e.preventDefault();
     if (!name.trim() || !email.trim() || !password) return;
+
+    if (!isPasswordValid) {
+      setError("Password must have at least 8 characters, including uppercase, lowercase, and a number.");
+      return;
+    }
 
     setError("");
     setIsSubmitting(true);
@@ -101,7 +112,7 @@ const Signup = () => {
               id="signup-password"
               type={showPassword ? "text" : "password"}
               className="auth-input password-input"
-              placeholder="Create a strong password"
+              placeholder="Create a strong password (e.g. Secret123)"
               aria-label="Password"
               value={password}
               onChange={(e) => setPassword(e.target.value)}
@@ -116,6 +127,22 @@ const Signup = () => {
               {showPassword ? <EyeOff size={16} /> : <Eye size={16} />}
             </button>
           </div>
+          {password.length > 0 && (
+            <div style={{ display: "flex", flexWrap: "wrap", gap: "8px", marginTop: "8px", fontSize: "0.75rem", padding: "4px 2px" }}>
+              <span style={{ color: hasLength ? "#10b981" : "#9ca3af", display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                {hasLength ? <Check size={12} /> : "○"} 8+ chars
+              </span>
+              <span style={{ color: hasUpper ? "#10b981" : "#9ca3af", display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                {hasUpper ? <Check size={12} /> : "○"} 1 uppercase
+              </span>
+              <span style={{ color: hasLower ? "#10b981" : "#9ca3af", display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                {hasLower ? <Check size={12} /> : "○"} 1 lowercase
+              </span>
+              <span style={{ color: hasDigit ? "#10b981" : "#9ca3af", display: "inline-flex", alignItems: "center", gap: "3px" }}>
+                {hasDigit ? <Check size={12} /> : "○"} 1 number
+              </span>
+            </div>
+          )}
         </div>
 
         <button

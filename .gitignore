@@ -144,3 +144,5 @@ vite.config.ts.timestamp-*
 
 # MongoDB Local data
 server/data/
+data/
+/data/

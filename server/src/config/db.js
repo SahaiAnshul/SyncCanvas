@@ -65,4 +65,14 @@ const connectDB = async () => {
   }
 };
 
+export const closeDB = async () => {
+  await mongoose.disconnect();
+  if (mongoMemoryServer) {
+    try {
+      await mongoMemoryServer.stop();
+    } catch {}
+    mongoMemoryServer = null;
+  }
+};
+
 export default connectDB;

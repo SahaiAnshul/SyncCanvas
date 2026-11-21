@@ -84,9 +84,13 @@ function runCommand(cmd, args, stdin, timeout = 3000) {
       child.kill('SIGKILL');
     }, timeout);
 
-    if (stdin) {
-      child.stdin.write(stdin);
-      child.stdin.end();
+    if (child.stdin) {
+      if (stdin) {
+        child.stdin.write(stdin);
+      }
+      try {
+        child.stdin.end();
+      } catch (e) {}
     }
 
     child.stdout.on('data', (data) => {
@@ -142,8 +146,16 @@ async function executeLocalCode(language, code, stdin) {
     return { code: -1, stdout: '', stderr: `Unsupported language: ${language}` };
   }
 
-  const filename = `code_${timestamp}.${ext}`;
-  const filepath = path.join(TEMP_DIR, filename);
+  let filename = `code_${timestamp}.${ext}`;
+  let workDir = TEMP_DIR;
+  if (language === 'java') {
+    const classMatch = code.match(/public\s+class\s+([A-Za-z0-9_]+)/);
+    const className = classMatch ? classMatch[1] : 'SyncCanvas';
+    workDir = path.join(TEMP_DIR, `java_${timestamp}`);
+    if (!fs.existsSync(workDir)) fs.mkdirSync(workDir, { recursive: true });
+    filename = `${className}.java`;
+  }
+  const filepath = path.join(workDir, filename);
   fs.writeFileSync(filepath, code);
 
   let result;
@@ -200,7 +212,13 @@ async function executeLocalCode(language, code, stdin) {
   } catch (err) {
     result = { code: -1, stdout: '', stderr: err.message };
   } finally {
-    try { fs.unlinkSync(filepath); } catch (e) {}
+    try {
+      if (workDir !== TEMP_DIR) {
+        fs.rmSync(workDir, { recursive: true, force: true });
+      } else {
+        fs.unlinkSync(filepath);
+      }
+    } catch (e) {}
   }
 
   // Format nice missing command error (ENOENT)

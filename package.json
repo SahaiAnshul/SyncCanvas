@@ -14,6 +14,7 @@
     "dev:client": "npm run dev --prefix client",
     "dev:server": "npm run dev --prefix server",
     "dev": "npx concurrently \"npm run dev:server\" \"npm run dev:client\"",
+    "diagnostic": "node scripts/run_diagnostic.mjs",
     "build:client": "npm run build --prefix client",
     "build": "npm run build:client"
   },

@@ -649,12 +649,13 @@ const CodeEditor = ({
     setConsoleTab('output');
 
     try {
+      const activeToken = token || localStorage.getItem('synccanvas.token');
       const apiUrl = (import.meta.env.VITE_API_URL || '/api').replace(/\/+$/, '');
       const response = await fetch(apiUrl + '/execute', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+          ...(activeToken ? { Authorization: `Bearer ${activeToken}` } : {}),
         },
         body: JSON.stringify({
           language,
@@ -695,7 +696,7 @@ const CodeEditor = ({
     } finally {
       setIsRunning(false);
     }
-  }, [language, stdin]);
+  }, [language, stdin, token]);
 
   // ============================================
   // HANDLERS

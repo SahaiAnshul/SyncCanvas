@@ -30,6 +30,7 @@ const Dashboard = () => {
         name: r.roomName,
         roomCode: r.roomCode,
         creator: r.creator?.name || "Host",
+        members: r.participants?.length || 1,
         activeUsersCount: r.participants?.length || 1,
         description: r.description || "Collaborative Room",
         createdDate: r.createdAt ? new Date(r.createdAt).toLocaleDateString("en-GB", { day: 'numeric', month: 'short', year: 'numeric' }) : "Recently",
@@ -140,6 +141,7 @@ const Dashboard = () => {
           {selectedRoom && (
             <InviteUser
               roomName={selectedRoom.name}
+              roomCode={selectedRoom.roomCode}
               onClose={() => setShowInviteUser(false)}
             />
           )}

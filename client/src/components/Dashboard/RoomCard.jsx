@@ -18,8 +18,13 @@ const RoomCard = ({ room, onInvite, onDelete }) => {
 
   return (
     <div className="room-card">
-      <div className="room-card-header">
+      <div className="room-card-header" style={{ display: "flex", justifyContent: "space-between", alignItems: "center" }}>
         <h3>{room.name}</h3>
+        {room.roomCode && (
+          <span style={{ fontSize: "0.75rem", background: "rgba(6, 182, 212, 0.15)", color: "#06b6d4", padding: "2px 8px", borderRadius: "6px", fontFamily: "monospace", letterSpacing: "1px" }}>
+            {room.roomCode}
+          </span>
+        )}
       </div>
 
       <div className="room-card-body">
@@ -30,7 +35,7 @@ const RoomCard = ({ room, onInvite, onDelete }) => {
 
         <p className="room-detail">
           <Users size={16} />
-          <span>{room.members} Members</span>
+          <span>{room.members ?? room.activeUsersCount ?? 1} Members</span>
         </p>
       </div>
 
