@@ -1,7 +1,7 @@
 // src/components/LanguageSelector.jsx
 import React, { useState } from 'react';
 import { Play, Save, Braces, RotateCcw, Settings, FileCode, ChevronDown } from 'lucide-react';
-import { SUPPORTED_LANGUAGES } from './CodeEditor';
+import { SUPPORTED_LANGUAGES } from './editorConstants';
 
 // Helper to get file details and colors
 const getFileDetails = (langValue) => {

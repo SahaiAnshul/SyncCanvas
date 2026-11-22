@@ -19,11 +19,16 @@ const CreateRoom = () => {
 
   const handleSubmit = async (event) => {
     event.preventDefault();
-    if (!roomName.trim()) return;
+    const cleanName = roomName.trim();
+    if (!cleanName) return;
+    if (cleanName.length < 3) {
+      setError("Room name must be at least 3 characters long.");
+      return;
+    }
     setError("");
     setIsSubmitting(true);
     try {
-      const { data } = await api.post("/rooms", { roomName: roomName.trim(), description: description.trim() });
+      const { data } = await api.post("/rooms", { roomName: cleanName, description: description.trim() });
       navigate(`/room/${data.room.roomCode}`);
     } catch (requestError) {
       setError(requestError.response?.data?.message || "Unable to create room. Please try again.");
@@ -66,11 +71,12 @@ const CreateRoom = () => {
             <input
               id="roomName"
               type="text"
-              placeholder="e.g. Frontend Architecture Sync"
+              placeholder="e.g. Frontend Architecture Sync (min 3 chars)"
               aria-label="Room Name"
               value={roomName}
               onChange={(e) => setRoomName(e.target.value)}
               required
+              minLength={3}
               className="rich-input"
               maxLength={60}
             />
